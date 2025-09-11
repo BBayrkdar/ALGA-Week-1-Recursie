@@ -1,5 +1,6 @@
 ﻿using ALGA;
 using NUnit.Framework;
+using System;
 
 namespace ALGA_test
 {
@@ -26,5 +27,20 @@ namespace ALGA_test
             Assert.AreEqual(true, StringReverse.is_palindrome("parterretrap"));
             Assert.AreEqual(true, StringReverse.is_palindrome("gohangasalamiimalasagnahog"));
         }
+        
+        
+        
+        [Test]
+        public void Reverse_Null_Throws()
+        {
+            Assert.Throws<ArgumentNullException>(() => StringReverse.string_reverse(null));
+        }
+
+        [Test]
+        public void Palindrome_Null_Throws()
+        {
+            Assert.Throws<ArgumentNullException>(() => StringReverse.is_palindrome(null));
+        }
+
     }
 }

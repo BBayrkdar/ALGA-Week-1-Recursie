@@ -1,5 +1,6 @@
 ﻿using ALGA;
 using NUnit.Framework;
+using System;
 
 namespace ALGA_test
 {
@@ -32,6 +33,7 @@ namespace ALGA_test
         public void FibonacciIterativeNegative()
         {
             Assert.AreEqual(0, Fibonacci.fibonacci_iterative(-5));
+            Assert.AreEqual(0, Fibonacci.fibonacci_iterative(int.MinValue));
         }
 
         [Test]
@@ -48,6 +50,38 @@ namespace ALGA_test
             Assert.AreEqual(21, Fibonacci.fibonacci_iterative(8));
             Assert.AreEqual(34, Fibonacci.fibonacci_iterative(9));
             Assert.AreEqual(55, Fibonacci.fibonacci_iterative(10));
+        }
+
+        [Test]
+        public void Consistency_Recursive_Equals_Iterative_ForSmallN()
+        {
+            for (int n = 0; n <= 25; n++)
+            {
+                Assert.AreEqual(
+                    Fibonacci.fibonacci_iterative(n),
+                    Fibonacci.fibonacci_recursive(n),
+                    $"Mismatch at n={n}"
+                );
+            }
+        }
+
+
+        [Test]
+        public void Iterative_LargestFittingValue()
+        {
+            Assert.AreEqual(1_836_311_903, Fibonacci.fibonacci_iterative(46));
+        }
+
+        [Test]
+        public void Iterative_Overflow_At47()
+        {
+            Assert.Throws<OverflowException>(() => Fibonacci.fibonacci_iterative(47));
+        }
+
+        [Test]
+        public void WhichIsFaster_IsIterative()
+        {
+            Assert.AreEqual(Fibonacci.Answer.IterativeIsFaster, Fibonacci.which_is_faster());
         }
     }
 }
