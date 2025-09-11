@@ -1,5 +1,6 @@
 ﻿using ALGA;
 using NUnit.Framework;
+using System;
 
 namespace ALGA_test
 {
@@ -9,7 +10,9 @@ namespace ALGA_test
         [Test]
         public void PyramidProblemRecursiveNegative()
         {
+            Assert.AreEqual(0, PyramidProblem.triangular_number_recursive(-1));
             Assert.AreEqual(0, PyramidProblem.triangular_number_recursive(-4));
+            Assert.AreEqual(0, PyramidProblem.triangular_number_iterative(int.MinValue));
         }
 
         [Test]
@@ -64,6 +67,34 @@ namespace ALGA_test
             Assert.AreEqual(36, PyramidProblem.triangular_number_function(8));
             Assert.AreEqual(45, PyramidProblem.triangular_number_function(9));
             Assert.AreEqual(55, PyramidProblem.triangular_number_function(10));
+            Assert.AreEqual(500500, PyramidProblem.triangular_number_function(1000));
+            Assert.AreEqual(2147450880, PyramidProblem.triangular_number_function(65535));
+            Assert.Throws<OverflowException>(() => PyramidProblem.triangular_number_function(65536));
+        }
+
+        [Test]
+        public void PyramidProblemFunctionNegative()
+        {
+            Assert.AreEqual(0, PyramidProblem.triangular_number_function(-4));
+        }
+
+
+        [Test]
+        public void Recursive_WithChar_Throws()
+        {
+            Assert.Throws<ArgumentException>(() => PyramidProblem.triangular_number_recursive('A'));
+        }
+
+        [Test]
+        public void Iterative_WithChar_Throws()
+        {
+            Assert.Throws<ArgumentException>(() => PyramidProblem.triangular_number_iterative('B'));
+        }
+
+        [Test]
+        public void Function_WithChar_Throws()
+        {
+            Assert.Throws<ArgumentException>(() => PyramidProblem.triangular_number_function('C'));
         }
     }
 }
