@@ -1,5 +1,6 @@
 ﻿using ALGA;
 using NUnit.Framework;
+using System;
 
 namespace ALGA_test
 {
@@ -63,6 +64,36 @@ namespace ALGA_test
             Assert.AreEqual(7, Collatz.collatz_iterative(21));
             Assert.AreEqual(7, Collatz.collatz_iterative(128));
         }
+
+        [Test]
+        public void NegativeInputs_ReturnMinusOne()
+        {
+            Assert.AreEqual(-1, Collatz.collatz_iterative(int.MinValue));
+            Assert.AreEqual(-1, Collatz.collatz_recursive(int.MinValue));
+            Assert.AreEqual(-1, Collatz.collatz_iterative(-12345));
+            Assert.AreEqual(-1, Collatz.collatz_recursive(-12345));
+        }
+
+
+        [Test]
+        public void Implementations_Agree_On_SampleSet()
+        {
+            int[] samples = { 1, 2, 3, 5, 6, 7, 8, 9, 10, 12, 13, 19, 27, 97, 871, 6171 };
+            foreach (var n in samples)
+            {
+                Assert.AreEqual(
+                    Collatz.collatz_iterative(n),
+                    Collatz.collatz_recursive(n),
+                    $"Mismatch at n={n}"
+                );
+            }
+        }
+
+        [Test]
+        public void Recursive_Throws_On_Intermediate_Int_Overflow()
+        {
+            // 3n+1 > int.MaxValue when n > (int.MaxValue - 1) / 3 = 715_827_882
+            Assert.Throws<OverflowException>(() => Collatz.collatz_recursive(715_827_883));
+        }
     }
 }
-
